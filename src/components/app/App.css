@@ -1,0 +1,9 @@
+.container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 1010px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+}
