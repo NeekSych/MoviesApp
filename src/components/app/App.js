@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import Cards from "../card/Card.js";
-import "./App.css";
-import { Spin, Input, Pagination, Alert } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
-import _ from "lodash";
+import React, { Component } from 'react'
+import _ from 'lodash'
+import './App.css'
+import { Spin, Input, Pagination, Alert, Tabs } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
+import Cards from '../card/Card.js'
 
-const apiUrl = `https://api.themoviedb.org/3/search/movie?query=Jar&api_key=${process.env.REACT_APP_MOVIEDB_API_KEY}`;
+const apiUrl = `https://api.themoviedb.org/3/search/movie?query=Jar&api_key=${process.env.REACT_APP_MOVIEDB_API_KEY}`
 
 const antIcon = (
   <LoadingOutlined
@@ -15,61 +15,52 @@ const antIcon = (
     }}
     spin
   />
-);
+)
 
 class App extends Component {
   state = {
     movies: [],
     isLoading: false,
     error: false,
-    searchText: "",
+    searchText: '',
     totalResults: 0,
     currentPage: 1,
-  };
+  }
 
   searchUrl = (text) =>
-    `https://api.themoviedb.org/3/search/movie?query=${text}&api_key=${process.env.REACT_APP_MOVIEDB_API_KEY}`;
-  // componentDidMount(){
-  //   fetch(apiUrl)
-  //   .then((response)=>{
-  //     if(!response.ok){
-  //       throw new Error('Ошибка при получении данных')
-  //     }
-  //     return response.json()
-  //   })
-  //   .then((data)=>{
-  //     // fetch(https://api.themoviedb.org/3/movie/343611?&append_to_response=videos&api_key=6528ce5549843254c5037761d14d9e6e)
-  //     this.setState({movies: data, isLoading: false})
+    `https://api.themoviedb.org/3/search/movie?query=${text}&api_key=${process.env.REACT_APP_MOVIEDB_API_KEY}`
 
-  //   })
-  //   .catch(this.onError)
-  // }
   onError(error) {
     this.setState({
       error: true,
       errorMessage: error.message,
       isLoading: false,
-    });
+    })
   }
-
+  componentDidMount() {
+    const favorites = localStorage.getItem('favorites')
+    if (!favorites) {
+      localStorage.setItem('favorites', JSON.stringify([]))
+    }
+  }
   handleSearch = (event) => {
-    const searchText = event.target.value;
-    this.setState({ searchText });
+    const searchText = event.target.value
+    this.setState({ searchText })
 
     if (searchText) {
-      this.debouncedSearch(searchText, 1);
+      this.debouncedSearch(searchText, 1)
     }
-  };
+  }
 
   debouncedSearch = _.debounce((text, page) => {
-    this.setState({ isLoading: true, error: false });
+    this.setState({ isLoading: true, error: false })
 
     fetch(this.searchUrl(text))
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error('Network response was not ok')
         }
-        return response.json();
+        return response.json()
       })
       .then((data) => {
         this.setState({
@@ -77,23 +68,22 @@ class App extends Component {
           isLoading: false,
           totalResults: data.total_results,
           currentPage: page,
-        });
+        })
       })
       .catch(() => {
-        this.setState({ error: true, isLoading: false });
-      });
-  }, 300);
+        this.setState({ error: true, isLoading: false })
+      })
+  }, 300)
 
   handlePageChange = (page) => {
-    this.setState({ isLoading: true });
-    this.debouncedSearch(this.state.searchText, page);
-  };
+    this.setState({ isLoading: true })
+    this.debouncedSearch(this.state.searchText, page)
+  }
 
   render() {
     const { movies, isLoading, error, searchText, totalResults, currentPage } =
-      this.state;
-    console.log(movies.results);
-    const loader = isLoading && <Spin indicator={antIcon} />;
+      this.state
+    const loader = isLoading && <Spin indicator={antIcon} />
     const errorMessage = error && (
       <Alert
         message="EWH-EWH!"
@@ -101,7 +91,7 @@ class App extends Component {
         type="error"
         showIcon
       />
-    );
+    )
     const searchResults = (
       <>
         {movies.map((movie) => (
@@ -114,7 +104,7 @@ class App extends Component {
           pageSize={6} // Зависит от API, сколько результатов на странице
         />
       </>
-    );
+    )
 
     return (
       <div className="container">
@@ -123,11 +113,12 @@ class App extends Component {
           value={searchText}
           onChange={this.handleSearch}
         />
+        <Tabs />
         {loader}
         {errorMessage}
         {!isLoading && !error ? searchResults : null}
       </div>
-    );
+    )
   }
 }
-export default App;
+export default App
