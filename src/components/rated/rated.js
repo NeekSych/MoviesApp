@@ -14,9 +14,9 @@ class RatedMovies extends React.Component {
   render() {
     const { ratedMovies } = this.state
     return (
-      <div>
+      <div className="container">
         {ratedMovies.map((movie) => (
-          <Cards key={movie.id} movieProps={movie} />
+          <Cards key={movie.id} rating={movie.rating} movieProps={movie} />
         ))}
       </div>
     )

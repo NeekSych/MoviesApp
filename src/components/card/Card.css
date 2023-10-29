@@ -1,43 +1,50 @@
-.card{
-    width: 451px;
-    height: 279px;
-    padding: 0;
-    margin: 20px;
-    overflow: 'hidden';
-    position: relative;
+.card {
+  width: 451px;
+  height: 279px;
+  padding: 0;
+  margin: 20px;
+  overflow: 'hidden';
+  position: relative;
 }
-.card__flex{
-    padding: 0;
-    margin: 0;
+.card__flex {
+  padding: 0;
+  margin: 0;
 }
-.card__image{
-    margin:0;
-    padding:0;
-    display: block;
-    width: 183px;
-    height: 279px;
+.card__image {
+  margin: 0;
+  padding: 0;
+  display: block;
+  width: 183px;
+  height: 279px;
 }
-.card__info{
-    align-items: flex-start;
-    padding: 0px 20px;
-    width: 279px;
+.card__info {
+  align-items: flex-start;
+  padding: 0px 20px;
+  width: 279px;
 }
-.ant-card-body{
-    position: absolute;
-    top: -25px;
-    left: -25px;
+.ant-card-body {
+  position: absolute;
+  top: -25px;
+  left: -25px;
 }
-
-.card__title{
-    padding: 10 0px;
+.card__main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
-.card__date{
-    color:#827E7E;
+.card__title {
+  margin: 0px;
 }
-.card__genres{
-    display: flex;
-    flex-wrap: wrap
+.card__date {
+  color: #827e7e;
 }
-.card__description{
-    overflow: hidden;
+.card__genres {
+  display: flex;
+  flex-wrap: wrap;
+}
+.card__description {
+  overflow: hidden;
+}
+.card__progress {
+  margin: 10px;
 }
